@@ -544,6 +544,69 @@
     tick();
   }
 
+  // „Вижте го с вашето име“: страницата за записване се пренаписва с името и бранша, а записването работи на ужким.
+  const withNote = (href, text) => {
+    if (/^mailto:/.test(href)) return href + (href.includes("?") ? "&" : "?") + "subject=" + encodeURIComponent("Разговор от сайта") + "&body=" + encodeURIComponent(text);
+    if (/^https?:/.test(href)) { try { const u = new URL(href); u.searchParams.set("notes", text); return u.toString(); } catch (e) {} }
+    return href;
+  };
+  document.querySelectorAll("[data-mine]").forEach((box) => {
+    const data = JSON.parse(box.dataset.niches), body = box.querySelector("[data-mine-body]"), url = box.querySelector("[data-mine-url]");
+    const nameIn = box.querySelector("[data-mine-name]"), cta = box.querySelector("[data-mine-cta]"), base = cta.getAttribute("href");
+    const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+    const lat = { а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ж: "zh", з: "z", и: "i", й: "y", к: "k", л: "l", м: "m", н: "n", о: "o", п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "h", ц: "ts", ч: "ch", ш: "sh", щ: "sht", ъ: "a", ь: "y", ю: "yu", я: "ya" };
+    const slug = (t) => t.toLowerCase().split("").map((c) => lat[c] ?? c).join("").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "vashiyat-biznes";
+    const wd = ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"], mo = ["яну", "фев", "мар", "апр", "май", "юни", "юли", "авг", "сеп", "окт", "ное", "дек"];
+    const days = []; for (let d = new Date(), k = 0; days.length < 5 && k < 10; k++) { d.setDate(d.getDate() + 1); if (d.getDay()) days.push(new Date(d)); }
+    const times = ["09:00", "10:30", "12:00", "13:30", "15:00", "16:30", "18:00"];
+    let k = data[0].k, svc = 0, day = 0, time = -1, done = false;
+    const name = () => nameIn.value.trim() || "Вашият бизнес";
+    const busy = (d, t) => ((name().length * 7 + d * 3 + t * 5) % 4) === 0;
+    const draw = () => {
+      const n = data.find((x) => x.k === k), nm = esc(name());
+      url.textContent = "ergon.bg/" + slug(name());
+      cta.href = withNote(base, `Искам онлайн записване за ${name()} (${n.t}).`);
+      if (done) {
+        const d = days[day];
+        body.innerHTML = `<div class="mine__done"><span class="mine__ok">✓</span><b>Записахте се!</b><p>${esc(n.svc[svc][0])} в ${nm}<br>${wd[d.getDay()]}, ${d.getDate()} ${mo[d.getMonth()]} · ${times[time]}</p><p class="mine__small">Ще получите напомняне 24 часа преди часа.</p><button type="button" class="mine__again" data-mine-again>Ново записване</button></div><div class="mine__toast"><b>Известие до ${nm}</b>Нов клиент: ${esc(n.svc[svc][0])}, ${times[time]}</div>`;
+        return;
+      }
+      body.innerHTML = `<div class="mine__head"><span class="mine__logo">${nm.charAt(0).toUpperCase()}</span><span><b>${nm}</b><small>${esc(n.t)} · онлайн записване</small></span></div>
+<p class="mine__step">1. Услуга</p><div class="mine__svc">${n.svc.map(([t, dur, pr], i) => `<button type="button" data-svc="${i}"${i === svc ? ' class="is-on"' : ""}><span>${esc(t)}<small>${esc(dur)}</small></span><b>${esc(pr)}</b></button>`).join("")}</div>
+<p class="mine__step">2. Ден и час</p><div class="mine__days">${days.map((d, i) => `<button type="button" data-day="${i}"${i === day ? ' class="is-on"' : ""}><small>${wd[d.getDay()]}</small>${d.getDate()}</button>`).join("")}</div>
+<div class="mine__times">${times.map((t, i) => busy(day, i) ? `<button type="button" disabled>${t}</button>` : `<button type="button" data-time="${i}"${i === time ? ' class="is-on"' : ""}>${t}</button>`).join("")}</div>
+<button type="button" class="mine__go" data-mine-go${time < 0 ? " disabled" : ""}>${time < 0 ? "Изберете час" : "Запази час за " + times[time]}</button>`;
+    };
+    box.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b || b.disabled) return;
+      if (b.dataset.mineK) { k = b.dataset.mineK; svc = 0; time = -1; done = false; box.querySelectorAll("[data-mine-k]").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); }
+      else if (b.dataset.svc) svc = +b.dataset.svc;
+      else if (b.dataset.day) { day = +b.dataset.day; time = -1; }
+      else if (b.dataset.time) time = +b.dataset.time;
+      else if ("mineGo" in b.dataset) done = true;
+      else if ("mineAgain" in b.dataset) { done = false; time = -1; }
+      else return;
+      draw();
+    });
+    nameIn.addEventListener("input", draw);
+    draw();
+  });
+
+  // „Сглобете си системата“: отметките → списък, срок и бутон с избора в бележката към разговора.
+  document.querySelectorAll("[data-build]").forEach((box) => {
+    const boxes = [...box.querySelectorAll("input[type=checkbox]")], list = box.querySelector("[data-build-picked]"), weeks = box.querySelector("[data-build-weeks]"), cta = box.querySelector("[data-build-cta]"), base = box.dataset.cta;
+    const calc = () => {
+      const on = boxes.filter((b) => b.checked), sum = on.reduce((a, b) => a + +b.dataset.w, 0);
+      list.innerHTML = on.length ? on.map((b) => `<li>${b.dataset.t}</li>`).join("") : `<li class="is-empty">Отметнете поне едно нещо отляво.</li>`;
+      const lo = Math.max(1, Math.round(1 + sum * 0.6)), hi = lo + 1;
+      weeks.textContent = on.length ? `${lo}–${hi} седмици` : "–";
+      cta.classList.toggle("is-off", !on.length);
+      cta.href = withNote(base, "Искам: " + on.map((b) => b.dataset.t).join(", ") + ".");
+    };
+    box.addEventListener("change", calc);
+    calc();
+  });
+
   // 7: калкулаторът
   document.querySelectorAll("[data-loss]").forEach((box) => {
     const inputs = [...box.querySelectorAll("input[type=range]")], val = (n) => +box.querySelector(`[name=${n}]`).value;

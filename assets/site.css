@@ -1543,3 +1543,74 @@ body { background: var(--bg); color: var(--text); }
 /* менюто е плаващо „хапче“ — лентата зад него е прозрачна, иначе при скрол се вижда тъмна черта (Стоян, 17.11) */
 .nav, .nav.is-scrolled { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom-color: transparent; box-shadow: none; }
 
+
+/* ================= v15 (17.11): „Вижте го с вашето име“ и „Сглобете си системата“ ================= */
+.mine-sec, .build-sec { background: var(--bg); }
+.mine { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.mine__lbl { display: block; margin: 0 0 10px; font-size: 14px; font-weight: 600; color: var(--text-2); }
+.mine__name { width: 100%; height: 60px; margin-bottom: 28px; padding: 0 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--surface); color: var(--text); font: 500 22px var(--font); }
+.mine__name:focus { outline: none; border-color: var(--coral); box-shadow: 0 0 0 4px rgba(255, 107, 74, .18); }
+.mine__name::placeholder { color: var(--muted); }
+.mine__chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.mine__chip { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid var(--line-2); border-radius: 999px; background: transparent; color: var(--text-2); font: 500 14px var(--font); cursor: pointer; }
+.mine__chip .icon { width: 15px; height: 15px; }
+.mine__chip[aria-pressed="true"] { border-color: var(--coral); background: rgba(255, 107, 74, .12); color: var(--text); }
+.mine__note { margin: 0 0 22px; font-size: 14px; color: var(--muted); }
+.mine__page { overflow: hidden; border-radius: 18px; background: #fbf8f3; color: #1d1a16; box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .08); }
+.mine__bar { display: flex; align-items: center; gap: 6px; padding: 11px 14px; background: #ece6dc; border-bottom: 1px solid #e0d8cb; }
+.mine__bar i { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; } .mine__bar i:nth-child(2) { background: #febc2e; } .mine__bar i:nth-child(3) { background: #28c840; }
+.mine__bar span { flex: 1; margin-left: 10px; padding: 4px 12px; border-radius: 8px; background: #fbf8f3; font-size: 12.5px; color: #6d655a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mine__body { position: relative; min-height: 470px; padding: 24px; }
+.mine__head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.mine__logo { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 50%; background: #1d1a16; color: #fbf8f3; font: 500 24px var(--serif); }
+.mine__head b { display: block; font: 600 20px/1.2 var(--font); word-break: break-word; } .mine__head small { color: #7a7166; font-size: 13px; }
+.mine__step { margin: 0 0 10px; font-size: 12.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #9a8f81; }
+.mine__svc { display: grid; gap: 8px; margin-bottom: 20px; }
+.mine__svc button { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid #e3dbcf; border-radius: 12px; background: #fff; color: #1d1a16; font: 500 15px var(--font); text-align: left; cursor: pointer; }
+.mine__svc button small { display: block; font-size: 12.5px; font-weight: 400; color: #8a8174; }
+.mine__svc button b { white-space: nowrap; font-weight: 600; }
+.mine__svc .is-on, .mine__days .is-on, .mine__times .is-on { border-color: #e85a3c; box-shadow: 0 0 0 2px rgba(232, 90, 60, .25); }
+.mine__days { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
+.mine__days button, .mine__times button { padding: 9px 0; border: 1px solid #e3dbcf; border-radius: 10px; background: #fff; color: #1d1a16; font: 600 16px var(--font); cursor: pointer; }
+.mine__days small { display: block; font-size: 11.5px; font-weight: 500; color: #8a8174; }
+.mine__times { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 18px; }
+.mine__times button { font-size: 14px; font-weight: 500; }
+.mine__times button:disabled { color: #c4bcb0; text-decoration: line-through; background: #f3eee6; cursor: default; }
+.mine__go { width: 100%; height: 50px; border: 0; border-radius: 12px; background: #e85a3c; color: #fff; font: 600 16px var(--font); cursor: pointer; }
+.mine__go:disabled { background: #e3dbcf; color: #9a8f81; cursor: default; }
+.mine__done { display: grid; place-items: center; gap: 6px; padding: 70px 10px 40px; text-align: center; animation: v8-in .5s both; }
+.mine__ok { display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 8px; border-radius: 50%; background: #2a9d63; color: #fff; font-size: 30px; }
+.mine__done b { font: 500 32px var(--serif); } .mine__done p { margin: 0; color: #4b443b; line-height: 1.5; } .mine__small { font-size: 13px; color: #8a8174 !important; }
+.mine__again { margin-top: 14px; padding: 8px 16px; border: 1px solid #d9d0c2; border-radius: 999px; background: transparent; color: #4b443b; font: 500 13px var(--font); cursor: pointer; }
+.mine__toast { position: absolute; right: 14px; top: 14px; max-width: 250px; padding: 10px 14px; border-radius: 14px; background: #1d1a16; color: #e9e2d6; font-size: 12.5px; line-height: 1.4; box-shadow: 0 14px 30px -10px rgba(0, 0, 0, .5); animation: v8-in .5s .6s both; }
+.mine__toast b { display: block; color: #fff; font-size: 13px; }
+
+.build { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 32px; align-items: start; }
+.build__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.build__item { display: flex; gap: 14px; padding: 18px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); cursor: pointer; transition: border-color .2s, background .2s; }
+.build__item:hover { border-color: var(--line-2); }
+.build__item input { position: absolute; opacity: 0; pointer-events: none; }
+.build__box { display: grid; place-items: center; flex: none; width: 24px; height: 24px; margin-top: 1px; border: 1.5px solid var(--line-2); border-radius: 7px; color: transparent; transition: all .2s; }
+.build__box .icon { width: 15px; height: 15px; stroke-width: 3; }
+.build__item b { display: block; margin-bottom: 4px; font-size: 16px; font-weight: 600; color: var(--text); } .build__item small { font-size: 14px; line-height: 1.45; color: var(--text-2); }
+.build__item:has(input:checked) { border-color: rgba(255, 107, 74, .7); background: linear-gradient(180deg, rgba(255, 107, 74, .1), rgba(255, 107, 74, .03)), var(--surface); }
+.build__item:has(input:checked) .build__box { border-color: var(--coral); background: var(--coral); color: #1a0d08; }
+.build__item:has(input:focus-visible) { outline: 2px solid var(--coral); outline-offset: 2px; }
+.build__sum { position: sticky; top: 96px; padding: 26px; border: 1px solid var(--line-2); border-radius: 20px; background: #f4efe6; color: #1d1a16; }
+.build__k { margin: 0 0 12px; font: italic 500 26px var(--serif); }
+.build__picked { margin: 0 0 20px; padding-left: 20px; display: grid; gap: 6px; font-size: 15px; font-weight: 500; }
+.build__picked li::marker { color: #e85a3c; font-weight: 700; }
+.build__picked .is-empty { list-style: none; margin-left: -20px; color: #8a8174; font-weight: 400; }
+.build__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.build__facts div { padding: 12px 14px; border-radius: 12px; background: #fff; border: 1px solid #e3dbcf; }
+.build__facts small { display: block; font-size: 12px; color: #8a8174; } .build__facts b { font: 500 22px/1.2 var(--serif); font-variant-numeric: lining-nums; }
+.build__note { margin: 0 0 16px; font-size: 13.5px; color: #5c5449; }
+.build__sum .btn { width: 100%; }
+.build__sum .btn.is-off { opacity: .4; pointer-events: none; }
+@media (max-width: 900px) {
+  .mine, .build { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .build__list { grid-template-columns: minmax(0, 1fr); }
+  .build__sum { position: static; }
+  .mine__body { padding: 18px; min-height: 0; }
+  .mine__times { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
