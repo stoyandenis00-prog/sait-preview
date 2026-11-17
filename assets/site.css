@@ -1470,3 +1470,50 @@ body { font-family: var(--font); }
 @media (max-width: 639px) { .h1, .v8-title { font-size: 44px; } .h2 { font-size: 34px; } .lede { font-size: 28px; } }
 /* Cormorant по подразбиране е със „стари“ цифри (различна височина) — за числата искаме равни */
 .h1, .h2, .lede, .hl, .v8-stat b, .key b, .loss__big, .cmp__head b, .step__num { font-variant-numeric: lining-nums tabular-nums; }
+
+/* v11b (17.11): картинки в картите „Как работим“, всяка карта със свой цвят */
+.key .key__top { justify-content: space-between; gap: 18px; overflow: hidden; }
+.key--1 .key__top { background: radial-gradient(90% 70% at 80% 0%, rgba(139, 92, 255, .35), transparent 70%), linear-gradient(180deg, #1d1b3a, #141327); }
+.key--2 .key__top { background: radial-gradient(90% 80% at 100% 0%, rgba(61, 139, 255, .3), transparent 70%), linear-gradient(180deg, #17203a, #121628); }
+.key--3 .key__top { background: radial-gradient(90% 80% at 100% 0%, rgba(255, 79, 163, .26), transparent 70%), linear-gradient(180deg, #2a1830, #1a1222); }
+.key--4 .key__top { background: radial-gradient(70% 90% at 100% 0%, rgba(255, 179, 107, .22), transparent 70%), linear-gradient(180deg, #261f22, #181418); }
+.ka { display: block; font-size: 12.5px; line-height: 1.35; color: #e9e7ff; }
+.ka .icon { width: 15px; height: 15px; flex: none; }
+
+.ka-demo { position: relative; padding-bottom: 34px; }
+.ka-demo__bar { display: flex; align-items: center; gap: 6px; padding: 9px 12px; border: 1px solid rgba(255, 255, 255, .12); border-bottom: 0; border-radius: 12px 12px 0 0; background: rgba(255, 255, 255, .06); }
+.ka-demo__bar i { width: 8px; height: 8px; border-radius: 50%; background: #ff5f57; } .ka-demo__bar i:nth-child(2) { background: #febc2e; } .ka-demo__bar i:nth-child(3) { background: #28c840; }
+.ka-demo__bar em { margin-left: 8px; font-style: normal; color: var(--text-2); }
+.ka-demo__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 14px; border: 1px solid rgba(255, 255, 255, .12); border-radius: 0 0 12px 12px; background: rgba(8, 8, 28, .5); }
+.ka-demo__grid span { padding: 10px 0; border-radius: 8px; text-align: center; background: rgba(255, 255, 255, .06); font-variant-numeric: tabular-nums; }
+.ka-demo__grid .is-busy { opacity: .35; text-decoration: line-through; }
+.ka-demo__grid .is-on { background: #fff; color: #1a1440; font-weight: 600; box-shadow: 0 0 0 4px rgba(139, 92, 255, .4); }
+.ka-demo__toast { position: absolute; right: -6px; bottom: 0; display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .16); background: rgba(24, 22, 56, .95); box-shadow: 0 16px 34px -12px rgba(0, 0, 0, .8); animation: v8-bob 5s ease-in-out infinite; }
+.ka-demo__toast > .icon { width: 30px; height: 30px; padding: 7px; border-radius: 9px; background: #3ee08f; color: #072a18; }
+.ka-demo__toast b { display: block; font-size: 13px; color: #fff; } .ka-demo__toast small { color: var(--text-2); }
+
+.ka-own { display: grid; gap: 7px; }
+.ka-own__head { display: flex; align-items: center; gap: 7px; margin-bottom: 3px; color: var(--text-2); } .ka-own__head b { color: #fff; }
+.ka-own__head .icon { color: #7fb2ff; }
+.ka-own__row { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border-radius: 10px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .08); }
+.ka-own__row .icon:first-child { color: #7fb2ff; } .ka-own__row .icon:last-child { margin-left: auto; color: #3ee08f; }
+
+.ka-chat { display: grid; gap: 8px; }
+.ka-chat__m { max-width: 88%; padding: 9px 12px; border-radius: 14px; }
+.ka-chat__m--in { justify-self: start; border-bottom-left-radius: 4px; background: rgba(255, 255, 255, .1); }
+.ka-chat__m--out { justify-self: end; display: flex; align-items: center; gap: 8px; border-bottom-right-radius: 4px; background: linear-gradient(135deg, #ff5fa8, #ff9b6a); color: #fff; font-weight: 500; }
+.ka-chat__m--out i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #fff; color: #c2306f; font: 700 11px var(--font); }
+
+.ka-time { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding-top: 4px; }
+.ka-time__line { position: absolute; left: 7px; right: 12%; top: 11px; height: 2px; background: rgba(255, 255, 255, .12); }
+.ka-time__line i { position: absolute; inset: 0; background: linear-gradient(90deg, #ffb36b, #ff5fa8); transform-origin: left; animation: ka-fill 4s ease-in-out infinite; }
+@keyframes ka-fill { 0% { transform: scaleX(0); } 70%, 100% { transform: scaleX(1); } }
+.ka-time__s { position: relative; display: flex; flex-direction: column; gap: 2px; font-size: 13.5px; font-weight: 600; color: #fff; }
+.ka-time__s b { width: 16px; height: 16px; margin-bottom: 10px; border-radius: 50%; border: 2px solid #ffb36b; background: #181418; }
+.ka-time__s:last-child b { background: #3ee08f; border-color: #3ee08f; box-shadow: 0 0 0 5px rgba(62, 224, 143, .2); }
+.ka-time__s small { font-size: 12px; font-weight: 400; color: var(--text-2); }
+@media (max-width: 639px) { .ka-demo__toast { right: 0; } .ka-time { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; } .ka-time__line { display: none; } }
+@media (prefers-reduced-motion: reduce) { .ka-demo__toast, .ka-time__line i { animation: none; } }
+.key .ka b, .key:first-child .ka b { font: 600 13px/1.3 var(--font); letter-spacing: 0; }
+.key .ka small, .key:first-child .ka small { font-size: 12px; max-width: none; }
+.key:first-child .ka { font-size: 14px; }
