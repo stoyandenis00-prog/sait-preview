@@ -1542,3 +1542,35 @@ body { background: var(--bg); color: var(--text); }
 .section--dark .btn--primary:hover, #za-kogo .btn--primary:hover, .cta .btn--primary:hover, .cta .btn--light:hover { background: #ff8063; }
 /* менюто е плаващо „хапче“ — лентата зад него е прозрачна, иначе при скрол се вижда тъмна черта (Стоян, 17.11) */
 .nav, .nav.is-scrolled { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom-color: transparent; box-shadow: none; }
+
+/* ================= v13 (17.11): „Един ден“ като видео ================= */
+.day-film { position: relative; height: calc(var(--n, 5) * 70vh + 100vh); background: var(--bg); }
+.film__stick { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; align-items: center; overflow: hidden;
+  background: radial-gradient(700px 500px at 15% 55%, rgba(255, 107, 74, .1), transparent 70%), var(--bg); }
+.film__in { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 64px; align-items: center; width: 100%; }
+.film__title { margin: 0 0 6px; font: italic 500 26px/1.2 var(--serif); color: var(--accent-ink); }
+.film__clock { font: 400 clamp(96px, 13vw, 168px)/.9 var(--serif); letter-spacing: -.02em; color: var(--text); font-variant-numeric: lining-nums tabular-nums; }
+.film__bar { position: relative; height: 2px; margin: 26px 0 34px; max-width: 520px; background: var(--border); overflow: hidden; }
+.film__bar i { position: absolute; inset: 0; background: var(--coral); transform-origin: left; transform: scaleX(0); }
+.film__moments { position: relative; min-height: 210px; max-width: 620px; }
+.film__m { display: grid; gap: 18px; }
+.day-film.is-live .film__m { position: absolute; inset: 0 0 auto; opacity: 0; transform: translateY(24px); filter: blur(6px); transition: opacity .5s, transform .6s cubic-bezier(.2, .8, .2, 1), filter .5s; pointer-events: none; }
+.day-film.is-live .film__m.is-on { opacity: 1; transform: none; filter: none; }
+.film__m p { margin: 0; }
+.film__m span { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+.film__bad { font-size: 18px; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(255, 107, 74, .5); }
+.film__bad span { color: #c98b7d; text-decoration: none; }
+.film__good { font-size: clamp(24px, 2.6vw, 32px); line-height: 1.25; font-weight: 500; color: var(--text); }
+.film__good span { color: var(--coral); font-size: 13px; }
+.film__hint { display: flex; align-items: center; gap: 8px; margin: 26px 0 0; font-size: 14px; color: var(--muted); transition: opacity .4s; }
+.film__hint .icon { width: 15px; height: 15px; animation: v8-bob 1.6s ease-in-out infinite; }
+.day-film.is-done .film__hint { opacity: 0; }
+.film__phone { position: relative; top: 0; display: block; }
+.film__phone .day-phone__screen { height: 560px; }
+@media (max-width: 900px) {
+  .film__in { grid-template-columns: minmax(0, 1fr); }
+  .film__phone { display: none; }
+  .film__moments { min-height: 260px; }
+  .film__bad { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .day-film.is-live .film__m { transition: none; filter: none; transform: none; } .film__hint .icon { animation: none; } }

@@ -544,6 +544,37 @@
     tick();
   }
 
+  // „Един ден“ като видео: скролът върти деня. Секцията е висока (CSS), вътрешността е закачена на екрана.
+  const film = document.querySelector("[data-film]");
+  if (film) {
+    const ms = [...film.querySelectorAll(".film__m")], n = ms.length;
+    const clock = film.querySelector("[data-film-clock]"), pclock = film.querySelector("[data-film-pclock]"), feed = film.querySelector("[data-film-feed]"), bar = film.querySelector("[data-film-bar]");
+    const mins = (hm) => { const [h, m] = hm.split(":").map(Number); return h * 60 + m; };
+    const fmt = (v) => { v = Math.round(v); return String(Math.floor(v / 60)).padStart(2, "0") + ":" + String(v % 60).padStart(2, "0"); };
+    const check = '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+    let shown = null, cur = mins("08:00");
+    film.classList.add("is-live");
+    const show = (i) => {
+      if (i === shown) return;
+      shown = i;
+      ms.forEach((m, k) => m.classList.toggle("is-on", k === Math.max(0, i)));
+      const to = i < 0 ? mins("08:00") : mins(ms[i].dataset.t);
+      tween(cur, to, 650, (v) => { cur = v; clock.textContent = pclock.textContent = fmt(v); });
+      feed.innerHTML = ms.slice(0, i + 1).reverse().slice(0, 4).map((m, k) => `<div class="day-note${k ? " is-old" : ""}"><i>${check}</i><span><b><span>Ergon</span><span>${m.dataset.t}</span></b>${m.querySelector(".film__good").lastChild.textContent}</span></div>`).join("");
+    };
+    const tick = () => {
+      const r = film.getBoundingClientRect(), total = r.height - innerHeight;
+      const p = Math.min(1, Math.max(0, -r.top / total));
+      bar.style.transform = `scaleX(${p})`;
+      film.classList.toggle("is-done", p > 0.02);
+      show(r.top > innerHeight * 0.25 ? -1 : Math.min(n - 1, Math.floor(p * n)));
+    };
+    let busy = false;
+    addEventListener("scroll", () => { if (!busy) { busy = true; requestAnimationFrame(() => { busy = false; tick(); }); } }, { passive: true });
+    addEventListener("resize", tick);
+    tick();
+  }
+
   // 7: калкулаторът
   document.querySelectorAll("[data-loss]").forEach((box) => {
     const inputs = [...box.querySelectorAll("input[type=range]")], val = (n) => +box.querySelector(`[name=${n}]`).value;
