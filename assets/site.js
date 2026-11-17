@@ -575,6 +575,47 @@
     tick();
   }
 
+  // Три варианта за „Един ден“: копчето показва един, другите се крият. ?den=diary|phone отваря направо вариант.
+  const sw = document.querySelector("[data-den-switch]");
+  if (sw) {
+    const pick = (k) => {
+      document.querySelectorAll("[data-den-v]").forEach((v) => { v.hidden = v.dataset.denV !== k; });
+      sw.querySelectorAll("[data-den]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.den === k)));
+      try { const u = new URL(location.href); u.searchParams.set("den", k); history.replaceState(null, "", u); } catch (e) {}
+      dispatchEvent(new Event("scroll"));
+    };
+    sw.addEventListener("click", (e) => { const b = e.target.closest("[data-den]"); if (b) pick(b.dataset.den); });
+    const want = new URLSearchParams(location.search).get("den");
+    if (want && document.querySelector(`[data-den-v="${want}"]`)) pick(want);
+  }
+
+  // Тефтерът: всеки ред се задрасква с „химикалка“, когато стигне до средата на екрана.
+  const dia = [...document.querySelectorAll(".dia__row, .dia__end")];
+  if (dia.length) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -35% 0px" });
+    dia.forEach((r) => io.observe(r));
+  }
+
+  // Телефонът в центъра: скролът сменя момента; на телефона се отваря съответното приложение и съобщенията идват едно след друго.
+  const pd = document.querySelector("[data-pday]");
+  if (pd) {
+    const apps = [...pd.querySelectorAll(".pday__app")], bad = [...pd.querySelectorAll(".pday__side--bad .pday__cap")], good = [...pd.querySelectorAll(".pday__side--good .pday__cap")];
+    const times = [...pd.querySelectorAll(".pday__side--bad small")].map((x) => x.textContent.split(" ")[0]), clock = pd.querySelector("[data-pday-clock]");
+    let shown = -1;
+    const tick = () => {
+      if (pd.hidden) return;
+      const r = pd.getBoundingClientRect(), p = Math.min(1, Math.max(0, -r.top / (r.height - innerHeight)));
+      const i = Math.min(apps.length - 1, Math.floor(p * apps.length));
+      if (i === shown) return;
+      shown = i;
+      [apps, bad, good].forEach((list) => list.forEach((el, k) => el.classList.toggle("is-on", k === i)));
+      clock.textContent = times[i];
+    };
+    let busy = false;
+    addEventListener("scroll", () => { if (!busy) { busy = true; requestAnimationFrame(() => { busy = false; tick(); }); } }, { passive: true });
+    tick();
+  }
+
   // 7: калкулаторът
   document.querySelectorAll("[data-loss]").forEach((box) => {
     const inputs = [...box.querySelectorAll("input[type=range]")], val = (n) => +box.querySelector(`[name=${n}]`).value;
