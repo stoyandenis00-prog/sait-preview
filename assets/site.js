@@ -165,7 +165,7 @@
     // Cal.com се зарежда едва при първото натискане (така пише и в „Поверителност“).
     const initCal = () => {
       if (window.Cal?.ns?.[ns]) return;
-      const brand = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#7c5cf6";
+      const brand = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#f6785c";
       // Официалният код за вграждане на Cal.com (зарежда app.cal.com/embed/embed.js).
       (function (C, A, L) { const p = (a, ar) => a.q.push(ar); const d = C.document; C.Cal = C.Cal || function () { const cal = C.Cal; const ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
       Cal("init", ns, { origin: "https://app.cal.com" });
@@ -399,7 +399,7 @@
   const orb = document.querySelector("[data-orb]");
   if (orb) {
     const cx = orb.getContext("2d"), still = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const css = getComputedStyle(orb), ink = css.color || "#ededf0", acc = css.getPropertyValue("--accent-ink").trim() || "#b3a5ff";
+    const css = getComputedStyle(orb), ink = css.color || "#f0eeed", acc = css.getPropertyValue("--accent-ink").trim() || "#ffb5a5";
     const pts = [];
     for (let lat = -84; lat <= 84; lat += 5) {
       const ring = Math.cos((lat * Math.PI) / 180), n = Math.max(6, Math.round(ring * 64));
@@ -420,8 +420,8 @@
       cx.font = "400 13px Onest, system-ui, sans-serif"; const w2 = cx.measureText(what).width;
       const w = Math.max(w1, w2) + 24, h = 44, left = x + (x > C ? -w - 16 : 16), top = y - h / 2;
       cx.globalAlpha = a; cx.fillStyle = "#ffffff"; cx.beginPath(); cx.roundRect(left, top, w, h, 8); cx.fill();
-      cx.fillStyle = "#0d0f15"; cx.font = "600 13px Onest, system-ui, sans-serif"; cx.fillText(who, left + 12, top + 18);
-      cx.fillStyle = "#4a4f5c"; cx.font = "400 13px Onest, system-ui, sans-serif"; cx.fillText(what, left + 12, top + 34);
+      cx.fillStyle = "#0d1015"; cx.font = "600 13px Onest, system-ui, sans-serif"; cx.fillText(who, left + 12, top + 18);
+      cx.fillStyle = "#5c534a"; cx.font = "400 13px Onest, system-ui, sans-serif"; cx.fillText(what, left + 12, top + 34);
       cx.strokeStyle = acc; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(x, y); cx.lineTo(x > C ? left + w : left, y); cx.stroke();
     };
     const draw = () => {
