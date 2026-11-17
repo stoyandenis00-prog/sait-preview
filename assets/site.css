@@ -1540,3 +1540,5 @@ body { background: var(--bg); color: var(--text); }
 .logo { font-family: var(--serif); font-size: 22px; letter-spacing: .01em; }
 .section--dark .btn--primary, #za-kogo .btn--primary, .cta .btn--primary, .cta .btn--light { background: var(--coral); color: #1a0d08; }
 .section--dark .btn--primary:hover, #za-kogo .btn--primary:hover, .cta .btn--primary:hover, .cta .btn--light:hover { background: #ff8063; }
+/* менюто е плаващо „хапче“ — лентата зад него е прозрачна, иначе при скрол се вижда тъмна черта (Стоян, 17.11) */
+.nav, .nav.is-scrolled { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom-color: transparent; box-shadow: none; }
