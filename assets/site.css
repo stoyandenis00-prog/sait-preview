@@ -1614,3 +1614,42 @@ body { background: var(--bg); color: var(--text); }
   .mine__body { padding: 18px; min-height: 0; }
   .mine__times { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* ---------- v16 (19.11): обратната връзка от Loom-а ----------
+   по-широк сайт и по-малко празно; логата текат като лента; „Вашето име“ и „Пробвайте“ се виждат наведнъж; стъпките тъмни */
+:root { --container: 1320px; --section-y: 80px; }
+@media (max-width: 639px) { :root { --section-y: 56px; } }
+.section-head { margin-bottom: 40px; }
+
+.x-logos { padding: 36px 0 12px; }
+.x-logos__row { display: block; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.x-logos__track { display: flex; width: max-content; animation: x-logos-run 38s linear infinite; }
+.x-logos__row:hover .x-logos__track { animation-play-state: paused; }
+.x-logos__track span { display: inline-flex; align-items: center; gap: 10px; margin-right: 56px; color: #8a8c98; }
+.x-logos__track span:hover { transform: none; }
+.x-logos__track svg { width: 38px; height: 38px; }
+.x-logos__track small { font-size: 15px; font-weight: 500; white-space: nowrap; }
+@keyframes x-logos-run { to { transform: translateX(-50%); } }
+@media (max-width: 639px) { .x-logos__track svg { width: 30px; height: 30px; } .x-logos__track span { margin-right: 36px; } }
+@media (prefers-reduced-motion: reduce) { .x-logos__track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; } .x-logos__track span[aria-hidden] { display: none; } }
+
+.mine { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; }
+@media (max-width: 900px) { .mine { grid-template-columns: minmax(0, 1fr); gap: 32px; } }
+.mine__head { display: block; margin-bottom: 28px; }
+.mine__head .h2 { font-size: clamp(34px, 3.6vw, 48px); }
+.mine__head .lead { margin-top: 12px; }
+.mine__name { height: 54px; margin-bottom: 22px; }
+.mine__chips { margin-bottom: 20px; }
+.mine__body { min-height: 0; }
+
+#probvai .sim__grid { grid-template-columns: minmax(0, 1fr) auto; gap: 64px; align-items: start; }
+#probvai .sim__col .section-head { margin-bottom: 24px; }
+#probvai .sim__tabs { margin-bottom: 20px; }
+#probvai .phone-wrap { position: sticky; top: 96px; }
+#probvai .phone { width: 320px; }
+@media (max-width: 1023px) { #probvai .sim__grid { grid-template-columns: minmax(0, 1fr); gap: 32px; } #probvai .phone-wrap { position: static; } }
+
+#kak { --bg: #0e131c; --bg-alt: #0e131c; --surface: #141a25; --surface-2: #1a2130; --border: rgba(255, 255, 255, .09); --line-2: rgba(255, 255, 255, .16); --text: #f3efe7; --text-2: #b4aea4; --muted: #8a857c;
+  background: radial-gradient(700px 400px at 90% 0%, rgba(255, 107, 74, .1), transparent 70%), #0e131c; color: var(--text); }
+#kak .section-head::before { -webkit-text-stroke: 1px rgba(255, 255, 255, .12); }
+#kak .btn--primary { background: var(--coral); color: #fff; }
